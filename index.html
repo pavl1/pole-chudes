@@ -1,0 +1,123 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="css/base.css?v=5">
+    <link rel="stylesheet" href="css/letters.css?v=5">
+    <link rel="stylesheet" href="css/wheel-of-fortune.css?v=5">
+    <link rel="stylesheet" href="css/messages.css?v=5">
+    <link rel="stylesheet" href="css/players.css?v=5">
+    <meta name="description" content="">
+
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:image:alt" content="">
+
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.png">
+
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+<div id="app" v-scope @vue:mounted="mounted">
+    <button @click="openControls">⚙️</button>
+
+    <div class="letters">
+        <div class="grid" ref="test">
+            <template v-for="(char, i) in answer.split('')">
+                <div v-scope="Char({char, checkedLetters})" :key="`${i}${char}`"></div>
+            </template>
+        </div>
+    </div>
+
+    <div class="game">
+        <div class="players">
+            <div v-if="showPlayer(0)" v-scope="Player(players[0], 0)" key="player0"></div>
+            <div v-if="showPlayer(1)" v-scope="Player(players[1], 1)" key="player1"></div>
+        </div>
+
+        <div class="ui-wheel-of-fortune-wrapper">
+            <fieldset v-show="useWheel" class="ui-wheel-of-fortune">
+                <ul class="wheel-of-fortune">
+                    <li v-for="sector in sectors" :key="sector.key" :value="sector.key">
+                        {{ sector.name }}
+                    </li>
+                </ul>
+                <ul class="wheel-of-fortune-center">
+                    <li v-for="n in sectors.length" :key="n + 'center'"></li>
+                </ul>
+            </fieldset>
+            <div v-show="useWheel" class="arrow"></div>
+        </div>
+
+        <div class="players">
+            <div v-if="showPlayer(2)" v-scope="Player(players[2], 2)" key="player2"></div>
+            <div v-if="showPlayer(3)" v-scope="Player(players[3], 3)" key="player3"></div>
+        </div>
+
+
+    </div>
+
+    <div class="message miss" v-show="missShow">
+        <span>❌</span>
+    </div>
+
+    <div class="message hit" v-show="hitShow">
+        <span>✅</span>
+    </div>
+
+    <div class="message fail" v-show="failShow">
+        <span>🤷‍♂️</span>
+    </div>
+
+    <div class="message manual" v-show="manualShow">
+        <span>{{ manualMessage }}</span>
+    </div>
+</div>
+
+<template id="char-template">
+    <div :class="char !== ' ' ? 'char' : 'space'">
+        <div class="scene">
+            <div class="card" :class="cardClassName">
+                <div class="card-face card-face--front"></div>
+                <div class="card-face card-face--back">
+                    {{ char.toUpperCase() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="player-template">
+    <div :class="playerClassName">
+        <h1>
+            {{ player.name }}
+            <template v-if="player.win">
+                👑
+            </template>
+            <template v-if="player.active">
+                ✋
+            </template>
+        </h1>
+        <p>{{ player.score }}</p>
+    </div>
+</template>
+
+<audio id="hit" class="hidden" src="/audio/hit.mp3"></audio>
+<audio id="miss" class="hidden" src="/audio/miss.mp3"></audio>
+<audio id="fail" class="hidden" src="/audio/fail.mp3"></audio>
+<audio id="win" class="hidden" src="/audio/win.mp3"></audio>
+<audio id="run" class="hidden" src="/audio/run.mp3"></audio>
+
+<script src="js/game.js?v=6" type="module"></script>
+
+</body>
+
+</html>

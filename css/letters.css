@@ -1,0 +1,81 @@
+.letters {
+  margin-bottom: 2em;
+}
+
+.grid {
+  grid-area: grid;
+  display: grid;
+  gap: 1vw;
+  grid-template-columns: repeat(auto-fit, 8vw);
+  grid-auto-rows: 8vw;
+  align-content: center;
+  justify-content: center;
+}
+
+.char {
+  width: 100%;
+  height: 100%;
+}
+
+.space {
+  visibility: hidden;
+}
+
+.scene {
+  width: 100%;
+  height: 100%;
+  perspective: 600px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.7s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.card-face {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+}
+
+.card-face--front {
+  background: black;
+}
+
+.card-face--back {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  font-size: 6vw;
+  line-height: 6vw;
+  background: white;
+  transform: rotateY( 180deg );
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 1px 6px 2px;
+}
+
+.card--open {
+  transform: rotateY(180deg);
+}
+
+
+@media screen and (max-width: 481px) {
+  .grid {
+    gap: 1vw;
+    grid-template-columns: repeat(auto-fit, 8vw);
+    grid-auto-rows: 8vw;
+    align-content: flex-start;
+    padding: 10% 0;
+  }
+
+  .card-face--back {
+    font-size: 7vw;
+    line-height: 7vw;
+  }
+}

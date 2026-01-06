@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление</title>
+    <style>
+        fieldset {
+            border: none;
+        }
+
+        .manual-buttons {
+            display: grid;
+            gap: 0.5em;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-scope @vue:mounted="mounted">
+    <div>
+        <label>
+            Отгадываем слово:
+            <input v-model="answer" placeholder="Введите текст" />
+        </label>
+    </div>
+
+    <fieldset>
+        <label>Игроки:</label>
+        <div v-for="(player, i) in players" :key="i">
+            <label><input type="checkbox" :checked="player.inGame" @change="changePlayerStatus(i)"> в игре</label>
+            <input type="text" v-model="player.name" placeholder="Имя игрока" />
+            <input type="number" v-model="player.score" placeholder="Счет" />
+            <button @click="changePlayerScore(i)">Применить</button>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <button @click="startGame">Начать новую игру</button>
+    </fieldset>
+
+    <hr />
+
+    <fieldset>
+        <label>Проверить букву</label>
+        <input type="text" maxlength="1" v-model="checkLetter" />
+        <button @click="guess">Проверить</button>
+    </fieldset>
+
+    <fieldset>
+        <label>Проверенные буквы: </label>
+        <span>{{ checkedLettersString }}</span>
+    </fieldset>
+
+    <fieldset>
+        <label>Открыть букву по номеру</label>
+        <input type="number" v-model="letterNumber" />
+        <button @click="openLetter">Открыть</button>
+    </fieldset>
+
+    <fieldset>
+        <button @click="openWord">Открыть слово</button>
+    </fieldset>
+
+    <hr />
+
+    <fieldset>
+        <label><input type="checkbox" :checked="useWheel" @change="toggleWheel">Использовать барабан</label>
+    </fieldset>
+
+    <p>Выпал сектор: {{ activeSector }}</p>
+
+    <fieldset v-if="useWheel">
+        <button v-if="useWheel" @click="spin">Крутить барабан</button>
+    </fieldset>
+    <fieldset v-else>
+        <div class="manual-buttons">
+            <button v-for="sector in sectors" :key="sector.key" @click="chooseManual(sector.key)">{{ sector.name }}
+            </button>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <button @click="nextTurn">Передать ход следующему игроку</button>
+    </fieldset>
+</div>
+
+<script src="js/controls.js?v=5" type="module"></script>
+</body>
+</html>

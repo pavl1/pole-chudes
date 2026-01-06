@@ -1,0 +1,26 @@
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+  height: 100%;
+}
+
+body {
+  background: url(/img/background.jpg) no-repeat 100% / 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+.hidden {
+  display: none;
+}
